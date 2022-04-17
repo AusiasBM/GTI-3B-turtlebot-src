@@ -86,6 +86,17 @@ class Service(Node):
             self.get_logger().info('Parando')
             # devuelve la respuesta
             response.success = True
+        elif request.move == "circle":
+            # define la velocidad lineal en el eje x 
+            msg.linear.x = 0.5
+            # define tla velocidad angular en el eje z
+            msg.angular.z = -0.5
+            # publica el mensaje
+            self.publisher.publish(msg)   
+            # imprime mensaje informando del movimiento
+            self.get_logger().info('Parando')
+            # devuelve la respuesta
+            response.success = True
         else:
             # estado de la respuesta
             # si no se ha dado ningun caso anterior

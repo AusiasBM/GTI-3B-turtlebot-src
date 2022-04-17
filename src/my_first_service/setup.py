@@ -24,7 +24,8 @@ setup(
     entry_points={
         'console_scripts': [
             'movement_server = my_first_service.movement_server:main', 
-            'movement_client = my_first_service.movement_client:main'
+            'movement_client = my_first_service.movement_client:main',
+            'circle_movement = my_first_service.circle_movement:main'
         ],
     },
 )

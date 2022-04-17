@@ -5,8 +5,12 @@ from custom_interface.srv import MyMoveMsg
 #importar  biblioteca Python ROS2
 import rclpy
 from rclpy.node import Node
+from custom_interface.msg import Distvel
 
 class Service(Node):
+
+    
+
     def __init__(self):
         #constructor con el nombre del nodo
         super().__init__('movement_server') 
@@ -20,8 +24,11 @@ class Service(Node):
         # tipo de mensaje
         # nombre del topic
         # tamaño de la cola
-
+        self.my_distvel = Distvel
         self.publisher = self.create_publisher(Twist, 'cmd_vel', 10)
+        self.my_distvel.radio = 1.0
+        self.my_distvel.velocidad = 1.0
+        self.my_distvel.direccion = "derecha"
 
     def my_first_service_callback(self, request, response):
         # recibe los parametros de esta clase
@@ -87,14 +94,20 @@ class Service(Node):
             # devuelve la respuesta
             response.success = True
         elif request.move == "circle":
+            direccion = 1
+            if self.my_distvel.direccion == "derecha":
+                direccion = 1
+            else:
+                direccion = -1
             # define la velocidad lineal en el eje x 
-            msg.linear.x = 0.5
-            # define tla velocidad angular en el eje z
-            msg.angular.z = -0.5
+            msg.linear.x = 0.5 * self.velocidad
+            # define la velocidad angular en el eje z
+            msg.angular.z = -0.5 * direccion * self.radio
             # publica el mensaje
-            self.publisher.publish(msg)   
+            self.publisher.publish(msg)
+
             # imprime mensaje informando del movimiento
-            self.get_logger().info('Parando')
+            self.get_logger().info('Circulo')
             # devuelve la respuesta
             response.success = True
         else:

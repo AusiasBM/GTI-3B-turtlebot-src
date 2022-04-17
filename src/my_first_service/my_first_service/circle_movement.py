@@ -46,6 +46,7 @@ class ClientAsync(Node):
             self.get_logger().info('Se está recibiendo "%s"' % str(msg.pose.pose.position.y))
             self.req.move = "parar"
             self.future = self.client.call_async(self.req)
+            
 def main(args=None):
     #inicializa la comunicacion ROS2
     rclpy.init(args=args)
